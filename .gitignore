@@ -5,13 +5,13 @@ bin
 .metadata
 .classpath
 .project
+classes
 
 # idea
 out
 *.ipr
 *.iws
 *.iml
-*.psd
 .idea
 
 # gradle
@@ -21,4 +21,4 @@ build
 # other
 eclipse
 run
-classes
+*.psd

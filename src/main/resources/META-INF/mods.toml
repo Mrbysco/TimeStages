@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[31,)"
+issueTrackerURL="https://github.com/Mrbysco/TimeStages"
+
+[[mods]]
+modId="timestages"
+version="${file.jarVersion}"
+displayName="Time Stages"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/time-stages"
+authors="Mrbysco, ShyNieke"
+description='''
+Allows stages to be unlocked/locked with timers
+'''
+
+[[dependencies.timestages]]
+modId="gamestages"
+mandatory=true
+versionRange="[5.0.2,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.timestages]]
+modId="crafttweaker"
+mandatory=true
+versionRange="[6.0.0.24,)"
+ordering="NONE"
+side="BOTH"

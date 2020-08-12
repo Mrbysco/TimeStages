@@ -1,11 +1,9 @@
 package com.mrbysco.timestages.compat.ct;
 
+import com.blamejared.crafttweaker.api.actions.IRuntimeAction;
 import com.mrbysco.timestages.TimeStages;
 
-import crafttweaker.IAction;
-
-public class ActionAddTimer implements IAction {
-
+public class ActionAddTimer implements IRuntimeAction {
 	private final String uniqueID;
 	private final String stage;
 	private final String nextStage;
@@ -14,8 +12,8 @@ public class ActionAddTimer implements IAction {
 	private final boolean removal;
 	private final boolean removeOld;
 
-	public ActionAddTimer(String ID, String stage, String nextStage, int time, String amount, boolean removal, boolean removeOld) {
-		this.uniqueID = ID;
+	public ActionAddTimer(String uniqueID, String stage, String nextStage, int time, String amount, boolean removal, boolean removeOld) {
+		this.uniqueID = uniqueID;
 		this.stage = stage;
 		this.nextStage = nextStage;
 		this.time = time;
@@ -27,17 +25,17 @@ public class ActionAddTimer implements IAction {
 	@Override
 	public void apply() {
 		if (this.removal)
-			TimeStages.addTimerInfo(uniqueID, stage, nextStage, time, amount, true, removeOld);
+			TimeStages.INSTANCE.addTimerInfo(uniqueID, stage, nextStage, time, amount, true, removeOld);
 		else
-			TimeStages.addTimerInfo(uniqueID, stage, nextStage, time, amount, false, false);
+			TimeStages.INSTANCE.addTimerInfo(uniqueID, stage, nextStage, time, amount, false, false);
 	}
 
 	@Override
 	public String describe() {
 		if (this.removal)
-			return String.format(this.stage + "will be locked in %d %s", this.time, this.amount);	
+			return String.format("%s will be locked in %d %s", this.stage, this.time, this.amount);
 		else
-			return String.format("%d %s has been added to unlock stage " + this.nextStage, this.time, this.amount);	
+			return String.format("%d %s has been added to unlock stage %s", this.time, this.amount, this.nextStage);
 	}
 
 }
