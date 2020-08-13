@@ -6,6 +6,7 @@ import net.darkhax.gamestages.GameStageHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -78,7 +79,7 @@ public class TimeStages {
 									setEntityTimeData(serverPlayer, uniqueID, 0);
 
 									GameStageHelper.removeStage(serverPlayer, requiredStage);
-									player.sendMessage(new TranslationTextComponent("stage.removal.message", requiredStage));
+									player.sendMessage(new TranslationTextComponent("stage.removal.message", requiredStage), Util.DUMMY_UUID);
 								} else {
 									++info.timer;
 									setEntityTimeData(serverPlayer, uniqueID, info.timer);
@@ -99,7 +100,7 @@ public class TimeStages {
 										if(removeOld) {
 											GameStageHelper.removeStage(serverPlayer, requiredStage);
 										}
-										player.sendMessage(new TranslationTextComponent("stage.add.message", nextStage));
+										player.sendMessage(new TranslationTextComponent("stage.add.message", nextStage), Util.DUMMY_UUID);
 									}
 								} else {
 									if(getEntityTimeData(serverPlayer, uniqueID) != info.timer) {
@@ -114,7 +115,7 @@ public class TimeStages {
 										if(removeOld) {
 											GameStageHelper.removeStage(serverPlayer, requiredStage);
 										}
-										player.sendMessage(new TranslationTextComponent("stage.add.message", nextStage));
+										player.sendMessage(new TranslationTextComponent("stage.add.message", nextStage), Util.DUMMY_UUID);
 									} else {
 										++info.timer;
 										setEntityTimeData(serverPlayer, uniqueID, info.timer);
