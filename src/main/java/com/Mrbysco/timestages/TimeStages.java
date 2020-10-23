@@ -34,7 +34,7 @@ public class TimeStages {
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	public static void addTimerInfo(String uniqueID, String stage, String nextStage, int time, String amount, boolean removal, boolean removeOld) {
+	public void addTimerInfo(String uniqueID, String stage, String nextStage, int time, String amount, boolean removal, boolean removeOld) {
 		// Check if the info doesn't already exist
 		StageInfo timer_info = new StageInfo(uniqueID, stage, nextStage, time, amount, removal, removeOld);
 		if(timers.containsValue(timer_info) || timers.containsKey(uniqueID) ) {
