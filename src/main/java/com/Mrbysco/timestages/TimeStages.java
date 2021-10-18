@@ -45,8 +45,7 @@ public class TimeStages {
 	}
     
     @SubscribeEvent
-    public void playerTick(PlayerTickEvent event)
-    {
+    public void playerTick(PlayerTickEvent event) {
 		if(event.phase == TickEvent.Phase.END)
 			return;
 
@@ -154,5 +153,4 @@ public class TimeStages {
 		}
 		return tag.getCompound(key);
     }
-
 }

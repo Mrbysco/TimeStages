@@ -37,5 +37,4 @@ public class ActionAddTimer implements IRuntimeAction {
 		else
 			return String.format("%d %s has been added to unlock stage %s", this.time, this.amount, this.nextStage);
 	}
-
 }
