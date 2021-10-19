@@ -11,10 +11,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,16 +28,13 @@ public class TimeStages {
 
 	public TimeStages() {
 		INSTANCE = this;
-		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
 	public void addTimerInfo(String uniqueID, String stage, String nextStage, int time, String amount, boolean removal, boolean removeOld) {
 		// Check if the info doesn't already exist
 		StageInfo timer_info = new StageInfo(uniqueID, stage, nextStage, time, amount, removal, removeOld);
-		if(timers.containsValue(timer_info) || timers.containsKey(uniqueID) ) {
-			return;
-		} else {
+		if(!timers.containsValue(timer_info) || !timers.containsKey(uniqueID) ) {
 			timers.put(uniqueID, timer_info);
 		}
 	}
@@ -68,7 +63,7 @@ public class TimeStages {
 						final String uniqueID = info.getUniqueID();
 
 						if (removal) {
-							if(GameStageHelper.hasStage(serverPlayer, requiredStage)) {
+							if(requiredStage.isEmpty() || GameStageHelper.hasStage(serverPlayer, requiredStage)) {
 								if(getEntityTimeData(serverPlayer, uniqueID) != info.timer) {
 									info.timer = getEntityTimeData(serverPlayer, uniqueID);
 								}
@@ -77,8 +72,10 @@ public class TimeStages {
 									info.timer = 0;
 									setEntityTimeData(serverPlayer, uniqueID, 0);
 
-									GameStageHelper.removeStage(serverPlayer, requiredStage);
-									player.sendMessage(new TranslationTextComponent("stage.removal.message", requiredStage), Util.DUMMY_UUID);
+									if(!requiredStage.isEmpty()) {
+										GameStageHelper.removeStage(serverPlayer, requiredStage);
+										player.sendMessage(new TranslationTextComponent("stage.removal.message", requiredStage), Util.DUMMY_UUID);
+									}
 								} else {
 									++info.timer;
 									setEntityTimeData(serverPlayer, uniqueID, info.timer);
@@ -90,13 +87,13 @@ public class TimeStages {
 								}
 							}
 						} else {
-							if (GameStageHelper.hasStage(serverPlayer, requiredStage) && !GameStageHelper.hasStage(serverPlayer, nextStage)) {
+							if ((requiredStage.isEmpty() || GameStageHelper.hasStage(serverPlayer, requiredStage)) && !GameStageHelper.hasStage(serverPlayer, nextStage)) {
 								if(info.getAmount().contains("day")) {
 									long worldAge = player.world.getGameTime() / 24000;
 									if((int)worldAge >= time) {
 										setEntityTimeData(serverPlayer, uniqueID, 0);
 										GameStageHelper.addStage(serverPlayer, nextStage);
-										if(removeOld) {
+										if(removeOld && !requiredStage.isEmpty()) {
 											GameStageHelper.removeStage(serverPlayer, requiredStage);
 										}
 										player.sendMessage(new TranslationTextComponent("stage.add.message", nextStage), Util.DUMMY_UUID);
@@ -111,7 +108,7 @@ public class TimeStages {
 										setEntityTimeData(serverPlayer, uniqueID, 0);
 
 										GameStageHelper.addStage(serverPlayer, nextStage);
-										if(removeOld) {
+										if(removeOld && !requiredStage.isEmpty()) {
 											GameStageHelper.removeStage(serverPlayer, requiredStage);
 										}
 										player.sendMessage(new TranslationTextComponent("stage.add.message", nextStage), Util.DUMMY_UUID);
