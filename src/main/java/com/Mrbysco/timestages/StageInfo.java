@@ -1,15 +1,14 @@
 package com.mrbysco.timestages;
 
 public class StageInfo {
-
-	private String uniqueID;
-	private String stage;
-	private String nextStage;
-	private int time;
-	private String amount;
-	private boolean removal;
+	private final String uniqueID;
+	private final String stage;
+	private final String nextStage;
+	private final int time;
+	private final String amount;
+	private final boolean removal;
 	public int timer;
-	private boolean removeOld;
+	private final boolean removeOld;
 	
 	public StageInfo(String ID, String stage, String nextStage, int time, String amount, boolean removal, boolean removeOld) {
 		this.uniqueID = ID;

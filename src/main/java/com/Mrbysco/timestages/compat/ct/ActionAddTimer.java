@@ -25,9 +25,9 @@ public class ActionAddTimer implements IRuntimeAction {
 	@Override
 	public void apply() {
 		if (this.removal)
-			TimeStages.INSTANCE.addTimerInfo(uniqueID, stage, nextStage, time, amount, true, removeOld);
+			TimeStages.addTimerInfo(uniqueID, stage, nextStage, time, amount, true, removeOld);
 		else
-			TimeStages.INSTANCE.addTimerInfo(uniqueID, stage, nextStage, time, amount, false, false);
+			TimeStages.addTimerInfo(uniqueID, stage, nextStage, time, amount, false, false);
 	}
 
 	@Override
