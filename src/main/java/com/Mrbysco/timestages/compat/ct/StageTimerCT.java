@@ -10,8 +10,8 @@ import org.openzen.zencode.java.ZenCodeType.Name;
 public class StageTimerCT {
 
 	@Method
-    public static void addTimer(String id, String stage, String nextStage, int time, String amount, boolean removeOld) {
-        CraftTweakerAPI.apply(new ActionAddTimer(id, stage, nextStage, time, amount, false, removeOld));
+	public static void addTimer(String id, String stage, String nextStage, int time, String amount, boolean removeOld) {
+		CraftTweakerAPI.apply(new ActionAddTimer(id, stage, nextStage, time, amount, false, removeOld));
 	}
 
 	@Method

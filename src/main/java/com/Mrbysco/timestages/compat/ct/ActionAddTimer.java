@@ -8,7 +8,7 @@ public class ActionAddTimer implements IRuntimeAction {
 	private final String stage;
 	private final String nextStage;
 	private final int time;
-	private final String amount;  
+	private final String amount;
 	private final boolean removal;
 	private final boolean removeOld;
 
@@ -21,7 +21,7 @@ public class ActionAddTimer implements IRuntimeAction {
 		this.removal = removal;
 		this.removeOld = removeOld;
 	}
-	
+
 	@Override
 	public void apply() {
 		if (this.removal)

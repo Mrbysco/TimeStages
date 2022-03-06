@@ -1,7 +1,7 @@
 package com.mrbysco.timestages.util;
 
 public class TimeHelper {
-	
+
 	public static int getProperTime(int time, String amount) {
 		int actualTime = 0;
 		if (amount.isEmpty()) {
@@ -10,7 +10,7 @@ public class TimeHelper {
 			if (amount.contains("seconds")) {
 				actualTime = time;
 				return actualTime;
-			} else if(amount.contains("min")) {
+			} else if (amount.contains("min")) {
 				actualTime = time * 60;
 				return actualTime;
 			} else if (amount.contains("hour")) {
@@ -20,7 +20,7 @@ public class TimeHelper {
 				return time;
 			}
 		}
-		
+
 		return actualTime;
 	}
 }
