@@ -1,13 +1,13 @@
 package com.mrbysco.timestages;
 
 import com.mrbysco.timestages.util.TimeHelper;
-import net.darkhax.bookshelf.util.PlayerUtils;
 import net.darkhax.gamestages.GameStageHelper;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.Util;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
@@ -38,17 +38,15 @@ public class TimeStages {
 
 	@SubscribeEvent
 	public void playerTick(PlayerTickEvent event) {
-		if (event.phase == Phase.START)
-			return;
+		if (event.phase == Phase.START) return;
 
-		final PlayerEntity player = event.player;
-		if (!player.world.isRemote && player.isAlive() && player.world.getGameTime() % 20 == 0) {
-			if (PlayerUtils.isPlayerReal(event.player) && timers != null && !timers.isEmpty()) {
-				ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
+		final Player player = event.player;
+		if (!player.level.isClientSide && player.isAlive() && player.level.getGameTime() % 20 == 0) {
+			if (isPlayerReal(event.player) && timers != null && !timers.isEmpty()) {
+				ServerPlayer serverPlayer = (ServerPlayer) player;
 				for (HashMap.Entry<String, StageInfo> entry : timers.entrySet()) {
 					StageInfo info = entry.getValue();
-					if (info.getStage().isEmpty())
-						return;
+					if (info.getStage().isEmpty()) return;
 
 					final boolean removal = info.isRemoval();
 
@@ -66,7 +64,7 @@ public class TimeStages {
 
 								if (!requiredStage.isEmpty()) {
 									GameStageHelper.removeStage(serverPlayer, requiredStage);
-									player.sendMessage(new TranslationTextComponent("stage.removal.message", requiredStage), Util.DUMMY_UUID);
+									player.sendMessage(new TranslatableComponent("stage.removal.message", requiredStage), Util.NIL_UUID);
 								}
 							} else {
 								++timer;
@@ -80,14 +78,14 @@ public class TimeStages {
 					} else {
 						if ((requiredStage.isEmpty() || GameStageHelper.hasStage(serverPlayer, requiredStage)) && !GameStageHelper.hasStage(serverPlayer, nextStage)) {
 							if (info.getAmount().contains("day")) {
-								long worldAge = player.world.getGameTime() / 24000;
+								long worldAge = player.level.getGameTime() / 24000;
 								if ((int) worldAge >= time) {
 									setEntityTimeData(serverPlayer, uniqueID, 0);
 									GameStageHelper.addStage(serverPlayer, nextStage);
 									if (removeOld && !requiredStage.isEmpty()) {
 										GameStageHelper.removeStage(serverPlayer, requiredStage);
 									}
-									player.sendMessage(new TranslationTextComponent("stage.add.message", nextStage), Util.DUMMY_UUID);
+									player.sendMessage(new TranslatableComponent("stage.add.message", nextStage), Util.NIL_UUID);
 								}
 							} else {
 								if (timer >= time) {
@@ -97,7 +95,7 @@ public class TimeStages {
 									if (removeOld && !requiredStage.isEmpty()) {
 										GameStageHelper.removeStage(serverPlayer, requiredStage);
 									}
-									player.sendMessage(new TranslationTextComponent("stage.add.message", nextStage), Util.DUMMY_UUID);
+									player.sendMessage(new TranslatableComponent("stage.add.message", nextStage), Util.NIL_UUID);
 								} else {
 									++timer;
 									setEntityTimeData(serverPlayer, uniqueID, timer);
@@ -114,13 +112,17 @@ public class TimeStages {
 		}
 	}
 
-	public static void setEntityTimeData(ServerPlayerEntity player, String valueTag, int time) {
-		CompoundNBT playerData = player.getPersistentData();
+	public static boolean isPlayerReal(Entity player) {
+		return player != null && player.level != null && player.getClass() == ServerPlayer.class;
+	}
+
+	public static void setEntityTimeData(ServerPlayer player, String valueTag, int time) {
+		CompoundTag playerData = player.getPersistentData();
 		playerData.putInt(valueTag, time);
 	}
 
-	public static int getEntityTimeData(ServerPlayerEntity player, String valueTag) {
-		CompoundNBT playerData = player.getPersistentData();
+	public static int getEntityTimeData(ServerPlayer player, String valueTag) {
+		CompoundTag playerData = player.getPersistentData();
 		return playerData.getInt(valueTag);
 	}
 }

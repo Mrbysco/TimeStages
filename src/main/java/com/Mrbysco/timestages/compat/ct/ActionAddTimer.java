@@ -1,6 +1,6 @@
 package com.mrbysco.timestages.compat.ct;
 
-import com.blamejared.crafttweaker.api.actions.IRuntimeAction;
+import com.blamejared.crafttweaker.api.action.base.IRuntimeAction;
 import com.mrbysco.timestages.TimeStages;
 
 public class ActionAddTimer implements IRuntimeAction {
