@@ -1,5 +1,5 @@
 {
     "_comment": "Messages",
-    "stage.removal.message": "Stage %s has been locked.",
-    "stage.add.message": "You unlocked stage %s!"
+    "timestages.stage.removal.message": "Stage %s has been locked.",
+    "timestages.stage.add.message": "You unlocked stage %s!"
 }

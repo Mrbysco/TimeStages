@@ -2,9 +2,8 @@ package com.mrbysco.timestages;
 
 import com.mrbysco.timestages.util.TimeHelper;
 import net.darkhax.gamestages.GameStageHelper;
-import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -64,7 +63,7 @@ public class TimeStages {
 
 								if (!requiredStage.isEmpty()) {
 									GameStageHelper.removeStage(serverPlayer, requiredStage);
-									player.sendMessage(new TranslatableComponent("stage.removal.message", requiredStage), Util.NIL_UUID);
+									player.displayClientMessage(Component.translatable("timestages.stage.removal.message", requiredStage), false);
 								}
 							} else {
 								++timer;
@@ -85,7 +84,7 @@ public class TimeStages {
 									if (removeOld && !requiredStage.isEmpty()) {
 										GameStageHelper.removeStage(serverPlayer, requiredStage);
 									}
-									player.sendMessage(new TranslatableComponent("stage.add.message", nextStage), Util.NIL_UUID);
+									player.displayClientMessage(Component.translatable("timestages.stage.add.message", nextStage), false);
 								}
 							} else {
 								if (timer >= time) {
@@ -95,7 +94,7 @@ public class TimeStages {
 									if (removeOld && !requiredStage.isEmpty()) {
 										GameStageHelper.removeStage(serverPlayer, requiredStage);
 									}
-									player.sendMessage(new TranslatableComponent("stage.add.message", nextStage), Util.NIL_UUID);
+									player.displayClientMessage(Component.translatable("timestages.stage.add.message", nextStage), false);
 								} else {
 									++timer;
 									setEntityTimeData(serverPlayer, uniqueID, timer);
