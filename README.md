@@ -1,3 +1,5 @@
+[![build](https://github.com/Mrbysco/TimeStages/actions/workflows/build.yml/badge.svg)](https://github.com/Mrbysco/TimeStages/actions/workflows/build.yml) [![](http://cf.way2muchnoise.eu/versions/285375.svg)](https://minecraft.curseforge.com/projects/time-stages)
+
 # Time Stages #
 
 ## About ##
