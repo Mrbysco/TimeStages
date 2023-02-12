@@ -19,6 +19,18 @@ Downloads are https://minecraft.curseforge.com/projects/time-stages
 // Makes you gain a stage 30 seconds after getting the needed stage.
 mods.timestages.Timers.addTimer("UniqueID", "neededStage" ,"UnlockedStage" ,30 ,"seconds");
 
+// Makes you gain a stage 30 seconds after getting the needed stage and remove the original required stage.
+mods.timestages.Timers.addTimer("UniqueID", "neededStage" ,"UnlockedStage" ,30 ,"seconds", true);
+
 // Removes a stage after 20 minutes.
 mods.timestages.Timers.removalTimer("UniqueID", "removedStage" ,20 ,"minutes");
+
+// Removes a stage after 20 minutes without putting a message in chat.
+mods.timestages.Timers.silentRemovalTimer("UniqueID", "removedStage" ,20 ,"minutes");
+
+// Makes you gain a stage 30 seconds after getting the needed stage without putting a message in chat.
+mods.timestages.Timers.addSilentTimer("UniqueID", "neededStage" ,"UnlockedStage" ,30 ,"seconds");
+
+// Makes you gain a stage 30 seconds after getting the needed stage and remove the original required stage without putting a message in chat.
+mods.timestages.Timers.addSilentTimer("UniqueID", "neededStage" ,"UnlockedStage" ,30 ,"seconds", true);
 ```
