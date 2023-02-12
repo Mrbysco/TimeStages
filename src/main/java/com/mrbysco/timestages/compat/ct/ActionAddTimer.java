@@ -11,8 +11,9 @@ public class ActionAddTimer implements IRuntimeAction {
 	private final String amount;
 	private final boolean removal;
 	private final boolean removeOld;
+	private final boolean silent;
 
-	public ActionAddTimer(String uniqueID, String stage, String nextStage, int time, String amount, boolean removal, boolean removeOld) {
+	public ActionAddTimer(String uniqueID, String stage, String nextStage, int time, String amount, boolean removal, boolean removeOld, boolean silent) {
 		this.uniqueID = uniqueID;
 		this.stage = stage;
 		this.nextStage = nextStage;
@@ -20,14 +21,12 @@ public class ActionAddTimer implements IRuntimeAction {
 		this.amount = amount;
 		this.removal = removal;
 		this.removeOld = removeOld;
+		this.silent = silent;
 	}
 
 	@Override
 	public void apply() {
-		if (this.removal)
-			TimeStages.INSTANCE.addTimerInfo(uniqueID, stage, nextStage, time, amount, true, removeOld);
-		else
-			TimeStages.INSTANCE.addTimerInfo(uniqueID, stage, nextStage, time, amount, false, false);
+		TimeStages.INSTANCE.addTimerInfo(uniqueID, stage, nextStage, time, amount, removal, removeOld, silent);
 	}
 
 	@Override
