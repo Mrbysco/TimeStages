@@ -15,7 +15,7 @@ public class StageTimerCT {
 	}
 
 	@Method
-	public static void silentAddTimer(String id, String stage, String nextStage, int time, String amount, boolean removeOld) {
+	public static void addSilentTimer(String id, String stage, String nextStage, int time, String amount, boolean removeOld) {
 		CraftTweakerAPI.apply(new ActionAddTimer(id, stage, nextStage, time, amount, false, removeOld, true));
 	}
 
@@ -25,7 +25,7 @@ public class StageTimerCT {
 	}
 
 	@Method
-	public static void silentAddTimer(String id, String stage, String nextStage, int time, String amount) {
+	public static void addSilentTimer(String id, String stage, String nextStage, int time, String amount) {
 		CraftTweakerAPI.apply(new ActionAddTimer(id, stage, nextStage, time, amount, false, false, true));
 	}
 
