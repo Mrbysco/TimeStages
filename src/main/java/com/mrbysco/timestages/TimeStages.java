@@ -15,22 +15,23 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Mod(Reference.MOD_ID)
 public class TimeStages {
 	public static TimeStages INSTANCE;
 
-	public static ConcurrentHashMap<String, StageInfo> timers = new ConcurrentHashMap<>();
+	public static final Map<String, StageInfo> timers = new ConcurrentHashMap<>();
 
 	public TimeStages() {
 		INSTANCE = this;
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	public void addTimerInfo(String uniqueID, String stage, String nextStage, int time, String amount, boolean removal, boolean removeOld) {
+	public void addTimerInfo(String uniqueID, String stage, String nextStage, int time, String amount, boolean removal, boolean removeOld, boolean silent) {
 		// Check if the info doesn't already exist
-		StageInfo timer_info = new StageInfo(uniqueID, stage, nextStage, time, amount, removal, removeOld);
+		StageInfo timer_info = new StageInfo(uniqueID, stage, nextStage, time, amount, removal, removeOld, silent);
 		if (!timers.containsValue(timer_info) || !timers.containsKey(uniqueID)) {
 			timers.put(uniqueID, timer_info);
 		}
@@ -49,6 +50,7 @@ public class TimeStages {
 					if (info.getStage().isEmpty()) return;
 
 					final boolean removal = info.isRemoval();
+					final boolean silent = info.isSilent();
 
 					final String requiredStage = info.getStage();
 					final String nextStage = info.getNextStage();
@@ -64,7 +66,8 @@ public class TimeStages {
 
 								if (!requiredStage.isEmpty()) {
 									GameStageHelper.removeStage(serverPlayer, requiredStage);
-									player.sendMessage(new TranslatableComponent("stage.removal.message", requiredStage), Util.NIL_UUID);
+									if (!silent)
+										player.sendMessage(new TranslatableComponent("stage.removal.message", requiredStage), Util.NIL_UUID);
 								}
 							} else {
 								++timer;
@@ -85,7 +88,8 @@ public class TimeStages {
 									if (removeOld && !requiredStage.isEmpty()) {
 										GameStageHelper.removeStage(serverPlayer, requiredStage);
 									}
-									player.sendMessage(new TranslatableComponent("stage.add.message", nextStage), Util.NIL_UUID);
+									if (!silent)
+										player.sendMessage(new TranslatableComponent("stage.add.message", nextStage), Util.NIL_UUID);
 								}
 							} else {
 								if (timer >= time) {
@@ -95,7 +99,8 @@ public class TimeStages {
 									if (removeOld && !requiredStage.isEmpty()) {
 										GameStageHelper.removeStage(serverPlayer, requiredStage);
 									}
-									player.sendMessage(new TranslatableComponent("stage.add.message", nextStage), Util.NIL_UUID);
+									if (!silent)
+										player.sendMessage(new TranslatableComponent("stage.add.message", nextStage), Util.NIL_UUID);
 								} else {
 									++timer;
 									setEntityTimeData(serverPlayer, uniqueID, timer);

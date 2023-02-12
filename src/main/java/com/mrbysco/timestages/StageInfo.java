@@ -8,8 +8,9 @@ public class StageInfo {
 	private final String amount;
 	private final boolean removal;
 	private final boolean removeOld;
+	private final boolean silent;
 
-	public StageInfo(String ID, String stage, String nextStage, int time, String amount, boolean removal, boolean removeOld) {
+	public StageInfo(String ID, String stage, String nextStage, int time, String amount, boolean removal, boolean removeOld, boolean silent) {
 		this.uniqueID = ID;
 		this.stage = stage;
 		this.nextStage = nextStage;
@@ -17,6 +18,7 @@ public class StageInfo {
 		this.amount = amount;
 		this.removal = removal;
 		this.removeOld = removeOld;
+		this.silent = silent;
 	}
 
 	public String getStage() {
@@ -45,5 +47,9 @@ public class StageInfo {
 
 	public String getUniqueID() {
 		return uniqueID;
+	}
+
+	public boolean isSilent() {
+		return silent;
 	}
 }
