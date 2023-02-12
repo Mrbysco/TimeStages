@@ -42,7 +42,7 @@ public class TimeStages {
 			return;
 
 		final PlayerEntity player = event.player;
-		if (!player.world.isRemote && player.isAlive() && player.world.getGameTime() % 20 == 0) {
+		if (!player.level.isClientSide && player.isAlive() && player.level.getGameTime() % 20 == 0) {
 			if (PlayerUtils.isPlayerReal(event.player) && timers != null && !timers.isEmpty()) {
 				ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
 				for (HashMap.Entry<String, StageInfo> entry : timers.entrySet()) {
@@ -66,7 +66,7 @@ public class TimeStages {
 
 								if (!requiredStage.isEmpty()) {
 									GameStageHelper.removeStage(serverPlayer, requiredStage);
-									player.sendMessage(new TranslationTextComponent("stage.removal.message", requiredStage), Util.DUMMY_UUID);
+									player.sendMessage(new TranslationTextComponent("stage.removal.message", requiredStage), Util.NIL_UUID);
 								}
 							} else {
 								++timer;
@@ -80,14 +80,14 @@ public class TimeStages {
 					} else {
 						if ((requiredStage.isEmpty() || GameStageHelper.hasStage(serverPlayer, requiredStage)) && !GameStageHelper.hasStage(serverPlayer, nextStage)) {
 							if (info.getAmount().contains("day")) {
-								long worldAge = player.world.getGameTime() / 24000;
+								long worldAge = player.level.getGameTime() / 24000;
 								if ((int) worldAge >= time) {
 									setEntityTimeData(serverPlayer, uniqueID, 0);
 									GameStageHelper.addStage(serverPlayer, nextStage);
 									if (removeOld && !requiredStage.isEmpty()) {
 										GameStageHelper.removeStage(serverPlayer, requiredStage);
 									}
-									player.sendMessage(new TranslationTextComponent("stage.add.message", nextStage), Util.DUMMY_UUID);
+									player.sendMessage(new TranslationTextComponent("stage.add.message", nextStage), Util.NIL_UUID);
 								}
 							} else {
 								if (timer >= time) {
@@ -97,7 +97,7 @@ public class TimeStages {
 									if (removeOld && !requiredStage.isEmpty()) {
 										GameStageHelper.removeStage(serverPlayer, requiredStage);
 									}
-									player.sendMessage(new TranslationTextComponent("stage.add.message", nextStage), Util.DUMMY_UUID);
+									player.sendMessage(new TranslationTextComponent("stage.add.message", nextStage), Util.NIL_UUID);
 								} else {
 									++timer;
 									setEntityTimeData(serverPlayer, uniqueID, timer);
