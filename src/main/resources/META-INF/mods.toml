@@ -1,6 +1,6 @@
 modLoader="javafml"
-loaderVersion="[45,)"
-issueTrackerURL="https://github.com/Mrbysco/TimeStages"
+loaderVersion="[47,)"
+issueTrackerURL="https://github.com/Mrbysco/TimeStages/issues"
 license="MIT"
 
 [[mods]]
@@ -16,13 +16,13 @@ Allows stages to be unlocked/locked with timers
 [[dependencies.timestages]]
 modId="gamestages"
 mandatory=true
-versionRange="[13.0.1,)"
+versionRange="[15.0.1,)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.timestages]]
 modId="crafttweaker"
 mandatory=true
-versionRange="[12.0.1,)"
+versionRange="[14.0.1,)"
 ordering="NONE"
 side="BOTH"

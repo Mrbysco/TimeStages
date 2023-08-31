@@ -41,7 +41,7 @@ public class TimeStages {
 		if (event.phase == Phase.START) return;
 
 		final Player player = event.player;
-		if (!player.level.isClientSide && player.isAlive() && player.level.getGameTime() % 20 == 0) {
+		if (!player.level().isClientSide && player.isAlive() && player.level().getGameTime() % 20 == 0) {
 			if (isPlayerReal(event.player) && timers != null && !timers.isEmpty()) {
 				ServerPlayer serverPlayer = (ServerPlayer) player;
 				for (HashMap.Entry<String, StageInfo> entry : timers.entrySet()) {
@@ -80,7 +80,7 @@ public class TimeStages {
 					} else {
 						if ((requiredStage.isEmpty() || GameStageHelper.hasStage(serverPlayer, requiredStage)) && !GameStageHelper.hasStage(serverPlayer, nextStage)) {
 							if (info.getAmount().contains("day")) {
-								long worldAge = player.level.getGameTime() / 24000;
+								long worldAge = player.level().getGameTime() / 24000;
 								if ((int) worldAge >= time) {
 									setEntityTimeData(serverPlayer, uniqueID, 0);
 									GameStageHelper.addStage(serverPlayer, nextStage);
@@ -117,7 +117,7 @@ public class TimeStages {
 	}
 
 	public static boolean isPlayerReal(Entity player) {
-		return player != null && player.level != null && player.getClass() == ServerPlayer.class;
+		return player != null && player.level() != null && player.getClass() == ServerPlayer.class;
 	}
 
 	public static void setEntityTimeData(ServerPlayer player, String valueTag, int time) {

@@ -1,7 +1,8 @@
 {
   "pack": {
-    "description": "Resources for Time Stages",
-    "forge:server_data_pack_format": 12,
-    "pack_format": 13
+    "description": {
+      "text": "Resources for Time Stages"
+    },
+    "pack_format": 15
   }
 }
